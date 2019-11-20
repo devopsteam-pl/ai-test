@@ -19,8 +19,9 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                openshift.withCluster() {
-                    sh 'echo "Inside cluster"'
+                 openshift.withCluster() {
+                    sh "git clone http://gitea.192.168.42.104.nip.io/krdian/test-repo.git ."
+                    //sh " make clean generate build"
                 }
             }
         }
