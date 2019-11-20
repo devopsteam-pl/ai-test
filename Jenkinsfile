@@ -10,11 +10,24 @@ pipeline {
         stage('Build') {
             steps {
               script {
-                            openshift.withCluster() {
-                              sh 'echo 123'
+                  //node('golang') {
+                      withEnv(["PATH+OC=${tool 'oc'}"]) {
+                            openshift.withCluster("https://192.168.42.104:8443") {
+                             openshift.withProject("cicd") {   
+                                 openshift.withCredentials('jenkins-integration') {
+                              echo "Hello from project ${openshift.project()} in cluster ${openshift.cluster()}"
+                              
+                              def dc = openshift.selector('dc', "gitea")
+                                dc.rollout().status()
+                             }}
                             }
                         }
+                      
+                  //}
+              }
             }
         }
+        
     }
 }
+
