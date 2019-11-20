@@ -9,12 +9,19 @@ pipeline {
         }
         stage('Build') {
              steps {
-                sh 'docker build .'
+                sh 'echo 123'
             }
         }
         stage('Test') {
              steps {
                 sh 'echo 456'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                openshift.withCluster() {
+                    sh 'echo "Inside cluster"'
+                }
             }
         }
     }
