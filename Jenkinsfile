@@ -18,6 +18,7 @@ pipeline {
                             echo "In project: ${openshift.project()}"
                             echo "${openshift.raw("whoami")}"
                             def dc = openshift.selector('dc', "gitea")
+                            dc.rollout().latest()    
                             dc.rollout().status()
                             }
                         }
