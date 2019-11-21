@@ -10,20 +10,18 @@ pipeline {
         stage('Build') {
             steps {
               script {
-                  //node('golang') {
-                      //withEnv(["PATH+OC=${tool 'oc'}"]) {
-                            openshift.withCluster("https://192.168.42.104:8443") {
-                             openshift.withProject("cicd") {   
-                                 openshift.withCredentials('cicd-gitea-secret') {
-                              echo "Hello from project ${openshift.project()} in cluster ${openshift.cluster()}"
-                              
-                              def dc = openshift.selector('dc', "gitea")
-                                dc.rollout().status()
-                             }}
+                  openshift.withCluster() {
+                        openshift.withProject('cicd') { 
+                            openshift.withCredentials('cicd-my-prilvileged-token-id') {
+                            //openshift.verbose(true)   
+                            echo "${openshift.raw( "version" ).out}"
+                            echo "In project: ${openshift.project()}"
+                            echo "${openshift.raw("whoami")}"
+                            def dc = openshift.selector('dc', "gitea")
+                            dc.rollout().status()
                             }
-                        //}
-                      
-                  //}
+                        }
+                  }
               }
             }
         }
