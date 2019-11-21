@@ -1,5 +1,5 @@
 pipeline {
-    agent { label "golang" }
+    agent { label "openshift-common" }
     options { skipDefaultCheckout() }
     stages {
         stage('CleanWorkspace') {
