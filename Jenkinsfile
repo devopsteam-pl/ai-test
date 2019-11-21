@@ -14,7 +14,7 @@ pipeline {
                       //withEnv(["PATH+OC=${tool 'oc'}"]) {
                             openshift.withCluster("https://192.168.42.104:8443") {
                              openshift.withProject("cicd") {   
-                                 openshift.withCredentials('gitea-secret') {
+                                 openshift.withCredentials('cicd-gitea-secret') {
                               echo "Hello from project ${openshift.project()} in cluster ${openshift.cluster()}"
                               
                               def dc = openshift.selector('dc', "gitea")
